@@ -53,9 +53,9 @@ def fetch_dba_listings(brand, model):
     return pd.DataFrame(filtered)
 
 
-if st.button("🔎 Find biler"):
-    with st.spinner("Henter bilopslag fra DBA..."):
-        df = fetch_dba_listings()
+if st.button("🔍 Find biler"):
+    with st.spinner("Henter bilopslag..."):
+        df = fetch_dba_listings(brand, model)
         if df.empty:
             st.error("Ingen relevante biler fundet.")
         else:
