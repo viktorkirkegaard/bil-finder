@@ -8,8 +8,8 @@ st.title("Porsche 911 Cabriolet Finder")
 
 # Filtre
 max_price = st.slider("Maks pris (DKK)", 100000, 2000000, 2000000, step=50000)
-min_year = st.slider("Minimum årgang", 2000, 2024, 2014)
-max_km = st.slider("Maks km", 0, 200000, 100000, step=5000)
+min_year = st.slider("Minimum årgang", 1950, 2024, 2024)
+max_km = st.slider("Maks km", 0, 300000, 300000, step=5000)
 
 # Funktion til at scrape eksempler fra Bilbasen (demo med fast URL for Porsche 911)
 def fetch_bilbasen_listings():
