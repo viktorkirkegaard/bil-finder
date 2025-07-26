@@ -3,8 +3,21 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-st.set_page_config(page_title="Porsche 911 Finder", layout="wide")
-st.title("🔍 Porsche 911 Cabriolet Finder (via DBA)")
+st.set_page_config(page_title="Bilvælger", layout="wide")
+st.title("🚘 Bilvælger – Find brugte biler")
+
+# 1. Mærker og modeller
+car_data = {
+    "Porsche": ["911", "Cayenne", "Panamera", "Taycan"],
+    "Audi": ["A3", "A4", "A6", "Q5", "Q7"],
+    "BMW": ["1-serie", "3-serie", "5-serie", "X3", "X5"],
+    "Mercedes": ["C-Klasse", "E-Klasse", "GLC", "S-Klasse"],
+    "Volkswagen": ["Golf", "Passat", "Tiguan", "Polo"],
+}
+
+# 2. Bruger vælger mærke og model
+brand = st.selectbox("Vælg mærke", list(car_data.keys()))
+model = st.selectbox("Vælg model", car_data[brand])
 
 # Inputfelter
 max_price = st.slider("Maks pris (DKK)", 100000, 2000000, 2000000, step=50000)
