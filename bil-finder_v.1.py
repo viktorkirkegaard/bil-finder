@@ -37,7 +37,12 @@ def filter_listings(brand, model):
     filtered = []
     for car in dummy_data:
         title = car["Titel"].lower()
-        if brand.lower() not in title or model.lower() not in title:
+        
+        if brand.lower() not in title:
+            continue
+
+        # Tillad delvis match for model (fx '911' i '911 Cabriolet')
+        if model.lower() not in title:
             continue
 
         # Pris
@@ -60,11 +65,11 @@ def filter_listings(brand, model):
         except:
             year = 1900
 
-        # Filtrering
         if price <= max_price and km <= max_km and year >= min_year:
             filtered.append(car)
 
     return pd.DataFrame(filtered)
+
 
 # Vis resultater
 if st.button("🔍 Find biler"):
