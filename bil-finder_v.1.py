@@ -7,9 +7,9 @@ st.set_page_config(page_title="Porsche 911 Finder", layout="wide")
 st.title("🔍 Porsche 911 Cabriolet Finder (via DBA)")
 
 # Inputfelter
-max_price = st.slider("Maks pris (DKK)", 100000, 1000000, 1000000, step=50000)
-max_km = st.slider("Maks km", 0, 200000, 100000, step=5000)
-min_year = st.slider("Min. årgang", 1990, 2024, 2014)
+max_price = st.slider("Maks pris (DKK)", 100000, 2000000, 2000000, step=50000)
+max_km = st.slider("Maks km", 0, 300000, 300000, step=5000)
+min_year = st.slider("Min. årgang", 1950, 2024, 2024)
 
 def fetch_dba_listings():
     url = f"https://www.dba.dk/biler/soeg/?soeg=porsche+911+cabriolet&pris=(0-{max_price})&sort=listingdate-desc"
