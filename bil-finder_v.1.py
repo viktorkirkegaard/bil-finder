@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 st.title("Porsche 911 Cabriolet Finder")
 
 # Filtre
-max_price = st.slider("Maks pris (DKK)", 100000, 1000000, 1000000, step=50000)
+max_price = st.slider("Maks pris (DKK)", 100000, 2000000, 2000000, step=50000)
 min_year = st.slider("Minimum årgang", 2000, 2024, 2014)
 max_km = st.slider("Maks km", 0, 200000, 100000, step=5000)
 
