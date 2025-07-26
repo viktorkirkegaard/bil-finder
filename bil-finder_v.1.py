@@ -12,40 +12,40 @@ max_km = st.slider("Maks km", 0, 300000, 300000, step=5000)
 min_year = st.slider("Min. årgang", 1950, 2024, 2024)
 
 def fetch_dba_listings():
-    url = f"https://www.dba.dk/biler/soeg/?soeg=porsche+911+cabriolet&pris=(0-{max_price})&sort=listingdate-desc"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers)
+    # Dummy-data til demo
+    cars = [
+        {
+            "Titel": "Porsche 911 Cabriolet 3.8 Turbo S 2016 – 58.000 km – 975.000 kr.",
+            "Link": "https://www.dba.dk/link1"
+        },
+        {
+            "Titel": "Porsche 911 Cabriolet 3.0 Carrera 2018 – 47.000 km – 899.000 kr.",
+            "Link": "https://www.dba.dk/link2"
+        },
+        {
+            "Titel": "Porsche 911 Cabriolet 3.6 Carrera 4 2015 – 91.000 km – 789.000 kr.",
+            "Link": "https://www.dba.dk/link3"
+        },
+        {
+            "Titel": "Porsche 911 Cabriolet Turbo 2020 – 38.000 km – 1.049.000 kr.",
+            "Link": "https://www.dba.dk/link4"
+        },
+    ]
 
-    if response.status_code != 200:
-        st.error(f"Kunne ikke hente data fra DBA (statuskode: {response.status_code})")
-        return pd.DataFrame()
+    # Filtrering baseret på input
+    filtered = []
+    for car in cars:
+        title = car["Titel"]
+        price = int(''.join(filter(str.isdigit, title.split("kr.")[0][-9:])))
+        km_str = ''.join(filter(str.isdigit, title.split("km")[0].split()[-2]))
+        km = int(km_str) if km_str else 0
+        year = int([s for s in title.split() if s.isdigit() and len(s) == 4][0])
 
-    soup = BeautifulSoup(response.text, "html.parser")
-    listings = soup.find_all("tr", class_="dbaListing")
-
-    if not listings:
-        st.warning("Ingen opslag fundet – DBA har måske ændret struktur.")
-        return pd.DataFrame()
-
-    cars = []
-    for listing in listings:
-        link_tag = listing.find("a", href=True)
-        if not link_tag:
+        if price > max_price or km > max_km or year < min_year:
             continue
-        title = link_tag.get_text(strip=True)
-        link = "https://www.dba.dk" + link_tag["href"]
+        filtered.append(car)
 
-        # Simpel filtrering: check om årstal og km står i teksten
-        if str(min_year) not in title and str(min_year + 1) not in title:
-            continue
-        if "km" in title.lower():
-            km_str = ''.join(filter(str.isdigit, title))
-            if km_str and int(km_str) > max_km:
-                continue
-
-        cars.append({"Titel": title, "Link": link})
-
-    return pd.DataFrame(cars)
+    return pd.DataFrame(filtered)
 
 if st.button("🔎 Find biler"):
     with st.spinner("Henter bilopslag fra DBA..."):
